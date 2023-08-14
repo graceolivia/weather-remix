@@ -8,7 +8,6 @@ export let loader: LoaderFunction = async () => {
   const apiKey = process.env.WEATHER_API;
   let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=40.8139&lon=73.9624&appid=${apiKey}`);
   let data = await response.json();
-  console.log(data);
   return json(data);
 
 };
@@ -17,8 +16,6 @@ export let loader: LoaderFunction = async () => {
 export default function Index(props: any) {
 
   let data = useLoaderData();
-  console.log("AHHHH");
-  console.log(props);
 
   let weatherDescription = data.weather && data.weather[0] ? data.weather[0].description : "N/A";
   let temperature = data.main ? data.main.temp : "N/A";
