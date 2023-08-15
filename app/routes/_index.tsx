@@ -9,10 +9,11 @@ export let loader: LoaderFunction = async ({request})  => {
   const url = new URL(request.url);
   const userInput = url.searchParams.get("user_input");
 
-  let response1 = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${userInput}&limit=5&appid=${apiKey}`)
+  let response1 = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${userInput}&limit=1&appid=${apiKey}`)
   let data1 = await response1.json();
   let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${data1[0].lat}&lon=${data1[0].lon}&appid=${apiKey}&units=imperial`);
   let data = await response.json();
+  console.log(data);
   return json(data);
 
 };
@@ -25,6 +26,8 @@ export default function Index(props: any) {
   let weatherDescription = data.weather && data.weather[0] ? data.weather[0].description : "N/A";
   let temperature = data.main ? data.main.temp : "N/A";
   let location = data.name || "N/A";
+  let icon = data.weather && data.weather[0] ? data.weather[0].icon : null;
+  let iconUrl = icon ? `https://openweathermap.org/img/wn/${icon}@2x.png` : null;
   return (
     <main className="relative min-h-screen bg-white sm:flex sm:items-center sm:justify-center">
       <div className="relative sm:pb-16 sm:pt-8">
@@ -42,6 +45,7 @@ export default function Index(props: any) {
 
           <div>
             <h1>Weather in {location}</h1>
+            {iconUrl && <img src={iconUrl} alt="Weather Icon" />}
             <p>Description: {weatherDescription}</p>
             <p>Temperature: {temperature} F</p>
           </div>
