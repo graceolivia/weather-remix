@@ -1,7 +1,6 @@
 import { json  } from "@remix-run/node";
 import type { V2_MetaFunction, LoaderFunction  } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import React, { useState } from "react";
 
 export const meta: V2_MetaFunction = () => [{ title: "Remix Notes" }];
 
@@ -18,19 +17,6 @@ export let loader: LoaderFunction = async () => {
 
 
 export default function Index(props: any) {
-  const [inputValue, setInputValue] = useState<string>(""); // State for the input value
-  const [submittedValue, setSubmittedValue] = useState<string | null>(null);
-
-  const handleInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Prevent default form submission behavior
-
-    setSubmittedValue(inputValue); // Update the submitted value state
-  };
-
 
   let data = useLoaderData();
 
@@ -42,20 +28,9 @@ export default function Index(props: any) {
       <div className="relative sm:pb-16 sm:pt-8">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
 
-          {submittedValue && <div style={{ color: "pink", fontWeight: "bold" }}>{submittedValue}</div>}
-
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              value={inputValue}
-              onChange={handleInputChange}
-              placeholder="Enter text..."
-            />
-            <button type="submit">Submit</button>
-          </form>
-
             Where do you live?
             <div>
+              <label htmlFor="email" className="sr-only">Email</label>
               <input type="email" name="email" id="email"
                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                      placeholder="Put your city here" />
