@@ -29,8 +29,8 @@ export default function Index(props: any) {
   let icon = data.weather && data.weather[0] ? data.weather[0].icon : null;
   let iconUrl = icon ? `https://openweathermap.org/img/wn/${icon}@2x.png` : null;
   return (
-    <main className="relative min-h-screen bg-white sm:flex sm:items-center sm:justify-center">
-      <div className="relative sm:pb-16 sm:pt-8">
+    <main className="relative min-h-screen bg-white sm:flex sm:items-center sm:justify-center bg-stone-500">
+      <div className="relative sm:pb-16 sm:pt-8 bg-stone-200 rounded">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
 
             Where do you live?
@@ -43,7 +43,7 @@ export default function Index(props: any) {
               </form>
             </div>
 
-          <div>
+          <div className="relative m-4 p-4 sm:pb-16 sm:pt-8 bg-stone-400 rounded">
             <h1>Weather in {location}</h1>
             {iconUrl && <img src={iconUrl} alt="Weather Icon" />}
             <p>Description: {weatherDescription}</p>
