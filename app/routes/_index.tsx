@@ -6,7 +6,10 @@ export const meta: V2_MetaFunction = () => [{ title: "Remix Notes" }];
 
 export let loader: LoaderFunction = async () => {
   const apiKey = process.env.WEATHER_API;
-  let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=40.8139&lon=73.9624&appid=${apiKey}`);
+
+  let response1 = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=South Bend&limit=5&appid=${apiKey}`)
+  let data1 = await response1.json();
+  let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${data1[0].lat}&lon=${data1[0].lon}&appid=${apiKey}&units=imperial`);
   let data = await response.json();
   return json(data);
 
@@ -36,7 +39,7 @@ export default function Index(props: any) {
           <div>
             <h1>Weather in {location}</h1>
             <p>Description: {weatherDescription}</p>
-            <p>Temperature: {temperature}K</p>
+            <p>Temperature: {temperature} F</p>
           </div>
 
         </div>
