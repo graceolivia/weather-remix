@@ -2,12 +2,14 @@ import { json  } from "@remix-run/node";
 import type { V2_MetaFunction, LoaderFunction  } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
-export const meta: V2_MetaFunction = () => [{ title: "Remix Notes" }];
+export const meta: V2_MetaFunction = () => [{ title: "Weather" }];
 
-export let loader: LoaderFunction = async () => {
+export let loader: LoaderFunction = async ({request})  => {
   const apiKey = process.env.WEATHER_API;
+  const url = new URL(request.url);
+  const userInput = url.searchParams.get("user_input");
 
-  let response1 = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=South Bend&limit=5&appid=${apiKey}`)
+  let response1 = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${userInput}&limit=5&appid=${apiKey}`)
   let data1 = await response1.json();
   let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${data1[0].lat}&lon=${data1[0].lon}&appid=${apiKey}&units=imperial`);
   let data = await response.json();
@@ -30,10 +32,12 @@ export default function Index(props: any) {
 
             Where do you live?
             <div>
-              <label htmlFor="email" className="sr-only">Email</label>
-              <input type="email" name="email" id="email"
+              <form action="/" method="get">
+              <input name="user_input" id="user_input"
                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                      placeholder="Put your city here" />
+                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Get Weather</button>
+              </form>
             </div>
 
           <div>
